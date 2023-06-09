@@ -11,4 +11,21 @@
 7. now the new site should be fully migrated
 
 ### NOTE:
-- avoid subdomain such as domain.com/site, use site.domain.com instead, otherwise a lot of links will be broken and it's annoying to manually fix them
+- avoid subdomain such as `domain.com/site`, use `site.domain.com` instead, otherwise a lot of links will be broken and it's annoying to manually fix them
+- make sure .htaccess set up correct, use template below
+```xml
+# BEGIN WordPress
+# The directives (lines) between "BEGIN WordPress" and "END WordPress" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    RewriteBase /
+    RewriteRule ^index\.php$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+```
